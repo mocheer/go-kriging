@@ -180,7 +180,9 @@ func (variogram *Variogram) Train(model ModelType, sigma2 float64, alpha float64
 		matrixChol2inv(Z, 2)
 	} else {
 		// TODO false
-		Z, _ = matrixInverse(cloneZ, 2)
+		// Z, _ = matrixInverse(cloneZ, 2)
+		gaussJordanInversion(cloneZ, 2)
+		Z = cloneZ
 	}
 
 	var W = matrixMultiply(matrixMultiply(Z, Xt, 2, 2, n), Y, 2, n, 1)
@@ -217,7 +219,9 @@ func (variogram *Variogram) Train(model ModelType, sigma2 float64, alpha float64
 		matrixChol2inv(C, n)
 	} else {
 		// TODO false
-		C, _ = matrixInverse(cloneC, n)
+		// C, _ = matrixInverse(cloneC, n)
+		gaussJordanInversion(cloneC, n)
+		C = cloneC
 	}
 
 	// Copy unprojected inverted matrix as K 复制未投影的逆矩阵为K
